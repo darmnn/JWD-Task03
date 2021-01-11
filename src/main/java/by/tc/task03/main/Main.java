@@ -4,6 +4,7 @@ import by.tc.task03.entity.Node;
 import by.tc.task03.parsing.impl.XMLParser;
 import by.tc.task03.print.impl.ErrorPrinter;
 import by.tc.task03.print.impl.TreePrinter;
+import by.tc.task03.validation.impl.XMLValidator;
 
 public class Main
 {
@@ -11,9 +12,9 @@ public class Main
     {
         ErrorPrinter errorPrinter = new ErrorPrinter();
 
-        //XMLValidator validator = new XMLValidator("src\\main\\resources\\doc.xml");
-        //if(validator.validate())
-       //{
+        XMLValidator validator = new XMLValidator("src\\main\\resources\\doc.xml");
+        if(validator.validate())
+        {
             XMLParser parser = new XMLParser("src\\main\\resources\\doc.xml");
 
             Node root = parser.parse();
@@ -21,6 +22,6 @@ public class Main
 
             TreePrinter treePrinter = new TreePrinter(root);
             treePrinter.print();
-        //}
+        }
     }
 }
