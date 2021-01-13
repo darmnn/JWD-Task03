@@ -25,20 +25,11 @@ public class XMLReader implements Reader
             FileReader fileReader = new FileReader(fileToParse);
             BufferedReader reader = new BufferedReader(fileReader);
 
-            try
+            String lineToParse = reader.readLine();
+            while(lineToParse != null)
             {
-                String lineToParse = reader.readLine();
-                while(lineToParse != null)
-                {
-                    fullXML.append(lineToParse);
-                    lineToParse = reader.readLine();
-
-                }
-            }
-            catch (IOException exx)
-            {
-                exx.printStackTrace();
-                return null;
+                fullXML.append(lineToParse);
+                lineToParse = reader.readLine();
             }
         }
         catch (FileNotFoundException ex)
@@ -46,6 +37,12 @@ public class XMLReader implements Reader
             ex.printStackTrace();
             return null;
         }
+        catch (IOException exx)
+        {
+            exx.printStackTrace();
+            return null;
+        }
+
 
         return fullXML.toString().replaceAll(LINES_DELIMITER, NOTHING);
     }
