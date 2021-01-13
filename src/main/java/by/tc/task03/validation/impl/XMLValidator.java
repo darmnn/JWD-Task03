@@ -15,6 +15,7 @@ public class XMLValidator implements FileValidator
     private static final String TAG = "(<.[^(><.)]+>)";
     private static final String SPACE_BETWEEN_ATTRIBUTES = " ";
     private static final String CLOSING_TAG = "</";
+    private static final String CLOSING_SLASH = "/";
 
     private static final int START_OF_THE_STRING = 0;
 
@@ -55,7 +56,7 @@ public class XMLValidator implements FileValidator
             String tag = fullXML.substring(tagMatcher.start()+1, tagMatcher.end()-1);
             i = tagMatcher.end();
 
-            if(!tag.contains("/"))
+            if(!tag.contains(CLOSING_SLASH))
             {
                 String tagName = getTagName(tag);
 
