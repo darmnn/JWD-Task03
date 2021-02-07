@@ -6,22 +6,36 @@ import by.tc.task03.print.impl.ErrorPrinter;
 import by.tc.task03.print.impl.TreePrinter;
 import by.tc.task03.validation.impl.XMLValidator;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class Main
 {
     public static void main(String[] args)
     {
-        ErrorPrinter errorPrinter = new ErrorPrinter();
-
-        XMLValidator validator = new XMLValidator("src\\main\\resources\\doc.xml");
-        if(validator.validate())
+        try
         {
-            XMLParser parser = new XMLParser("src\\main\\resources\\doc.xml");
+            ErrorPrinter errorPrinter = new ErrorPrinter();
 
-            Node root = parser.parse();
-            if(root == null) errorPrinter.print();
+            XMLValidator validator = new XMLValidator(".\\resources\\doc.xml");
+            if(validator.validate())
+            {
+                XMLParser parser = new XMLParser(".\\resources\\doc.xml");
 
-            TreePrinter treePrinter = new TreePrinter(root);
-            treePrinter.print();
+                Node root = parser.parse();
+                if(root == null) errorPrinter.print();
+
+                TreePrinter treePrinter = new TreePrinter(root);
+                treePrinter.print();
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 }

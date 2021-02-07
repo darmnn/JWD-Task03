@@ -127,17 +127,28 @@ public class XMLParser implements FileParser
 
     }
 
-    public Node parse()
+    public Node parse() throws FileNotFoundException, IOException
     {
-        XMLReader reader = new XMLReader(fileToParse);
-        fullXML = reader.readFullFile();
-        if(fullXML == null) return null;
+        try
+        {
+            XMLReader reader = new XMLReader(fileToParse);
+            fullXML = reader.readFullFile();
+            if(fullXML == null) return null;
 
-        parsedRoot = new Node();
-        buildTree(fullXML, parsedRoot);
+            parsedRoot = new Node();
+            buildTree(fullXML, parsedRoot);
 
-        parsedRoot = parsedRoot.getChildren().get(0);
+            parsedRoot = parsedRoot.getChildren().get(0);
 
-        return parsedRoot;
+            return parsedRoot;
+        }
+        catch (FileNotFoundException ex)
+        {
+            throw ex;
+        }
+        catch (IOException ex)
+        {
+            throw ex;
+        }
     }
 }

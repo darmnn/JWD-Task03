@@ -4,6 +4,8 @@ import by.tc.task03.parsing.impl.XMLReader;
 import by.tc.task03.validation.FileValidator;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,36 +40,47 @@ public class XMLValidator implements FileValidator
         return tagName;
     }
 
-    public boolean validate()
+    public boolean validate() throws FileNotFoundException, IOException
     {
-        XMLReader reader = new XMLReader(fileToValidate);
-        String fullXML = reader.readFullFile();
-        if(fullXML == null) return false;
-
-        LinkedList<String> tagStack = new LinkedList<String>();
-
-        Pattern tagPattern = Pattern.compile(TAG);
-        Matcher tagMatcher = tagPattern.matcher(fullXML);
-
-        int i = 0;
-
-        while(tagMatcher.find(i))
+        try
         {
-            String tag = fullXML.substring(tagMatcher.start()+1, tagMatcher.end()-1);
-            i = tagMatcher.end();
+            XMLReader reader = new XMLReader(fileToValidate);
+            String fullXML = reader.readFullFile();
+            if(fullXML == null) return false;
 
-            if(!tag.contains(CLOSING_SLASH))
+            LinkedList<String> tagStack = new LinkedList<String>();
+
+            Pattern tagPattern = Pattern.compile(TAG);
+            Matcher tagMatcher = tagPattern.matcher(fullXML);
+
+            int i = 0;
+
+            while(tagMatcher.find(i))
             {
-                String tagName = getTagName(tag);
+                String tag = fullXML.substring(tagMatcher.start()+1, tagMatcher.end()-1);
+                i = tagMatcher.end();
 
-                tagStack.push(tagName);
+                if(!tag.contains(CLOSING_SLASH))
+                {
+                    String tagName = getTagName(tag);
 
-                if(fullXML.contains(CLOSING_TAG + tagName))
-                    tagStack.pop();
+                    tagStack.push(tagName);
+
+                    if(fullXML.contains(CLOSING_TAG + tagName))
+                        tagStack.pop();
+                }
             }
-        }
 
-        if(tagStack.isEmpty()) return true;
-        else return false;
+            if(tagStack.isEmpty()) return true;
+            else return false;
+        }
+        catch (FileNotFoundException ex)
+        {
+            throw ex;
+        }
+        catch (IOException ex)
+        {
+            throw ex;
+        }
     }
 }

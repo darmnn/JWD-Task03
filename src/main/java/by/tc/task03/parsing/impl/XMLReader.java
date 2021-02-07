@@ -18,7 +18,7 @@ public class XMLReader implements Reader
         this.fullXML = new StringBuilder();
     }
 
-    public String readFullFile()
+    public String readFullFile() throws FileNotFoundException, IOException
     {
         try
         {
@@ -34,13 +34,11 @@ public class XMLReader implements Reader
         }
         catch (FileNotFoundException ex)
         {
-            ex.printStackTrace();
-            return null;
+            throw ex;
         }
         catch (IOException exx)
         {
-            exx.printStackTrace();
-            return null;
+            throw exx;
         }
 
 
